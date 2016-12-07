@@ -8,7 +8,9 @@ public class Solution {
     private HashSet<Step> set = new HashSet<>();
 
     public boolean canCross(int[] stones) {
+        int stoneLength = stones.length;
         if (stones[1] != 1) return false;
+        if (stoneLength == 2) return true;
         for (int i = 2, length = stones.length; i < length; ++i) {
             map.put(stones[i], i);
         }
@@ -19,7 +21,14 @@ public class Solution {
             if (set.contains(currentStep)) {
                 continue;
             }
-
+            for (int i = currentStep.unit - 1; i <= currentStep.unit + 1; ++ i) {
+                int total = stones[currentStep.index] + i;
+                Integer nextIndex = map.get(total);
+                if (nextIndex == null) continue;
+                if (nextIndex == stoneLength - 1) return true;
+                queues.add(new Step(nextIndex, i));
+            }
+            set.add(currentStep);
         }
         return false;
     }

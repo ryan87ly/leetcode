@@ -9,27 +9,30 @@ public class Solution {
             int oneStepPointer = nextIndex(i, nums, numLength);
             int twoStepsPointer = nextIndex(oneStepPointer, nums, numLength);
             while(true) {
-                if (oneStepPointer == twoStepsPointer && nextIndex(oneStepPointer, nums, numLength) != oneStepPointer) return true;
+                if ((oneStepPointer == twoStepsPointer) && (nextIndex(oneStepPointer, nums, numLength) != oneStepPointer)) return true;
                 int oneStepNum = nums[oneStepPointer];
-                int twoStepsNum = nums[twoStepsPointer];
-
-                if ((oneStepNum ^ direction) < 0) {
-                    //clean(i, oneStepPointer, nums);
+                if (oneStepNum == 0 || (oneStepNum ^ direction) < 0 || (oneStepNum % numLength == 0)) {
+                    clean(i, nums, numLength, direction);
                     break;
                 }
-                if ()
+                int twoStepsNum = nums[twoStepsPointer];
+                if (twoStepsNum == 0 || (twoStepsNum ^ direction) < 0 || (twoStepsNum % numLength == 0)) {
+                    clean(i, nums, numLength, direction);
+                    break;
+                }
+                oneStepPointer = nextIndex(oneStepPointer, nums, numLength);
+                twoStepsPointer = nextIndex(nextIndex(twoStepsPointer, nums, numLength), nums, numLength);
             }
         }
         return false;
-        /*
+    }
 
-        while(true) {
-            int step = nums[currentIndex];
-            if (step == 0) return true;
-            if (step % numLength == 0) return false;
-            nums[currentIndex] = 0;
-            currentIndex = circularMod(currentIndex + step, numLength);
-        }*/
+    private void clean(int startIndex, int[] nums, int length, int direction) {
+        for (int i = startIndex; i < length; ++ i) {
+            int currentNum = nums[i];
+            if((currentNum != 0 && (currentNum ^ direction) > 0) || (currentNum % length == 0)) nums[i] = 0;
+            else return;
+        }
     }
 
     private int nextIndex(int currentIndex, int[] nums, int length) {
