@@ -9,7 +9,8 @@ public class Solution {
         int bound2 = Math.min(target, length2);
         int a1 = 1, a2 = bound1;
         int b1 = 1, b2 = bound2;
-        int i = (a1 + a2) / 2;
+        //int i = (a1 + a2) / 2;
+        int i = length1 == 1 ? length1 : length1 / 2;
         int j = target - i;
         int selectedIndex;
         while(true) {
@@ -19,10 +20,10 @@ public class Solution {
             } else if (j == 0) {
                 selectedIndex = target;
                 break;
-            } else if (i == bound1 + 1) {
+            } else if (i >= bound1 + 1) {
                 selectedIndex = target;
                 break;
-            } else if (j == bound2 + 1){
+            } else if (j >= bound2 + 1){
                 selectedIndex = target - bound2;
                 break;
             }
@@ -41,6 +42,7 @@ public class Solution {
                     i = bound1 + 1;
                 } else {
                     i = (a1 + a2) / 2;
+                    //i = (a2 - a1 + 1) / 2 + a1 - 1;
                 }
                 j = target - i;
             } else {
@@ -49,9 +51,10 @@ public class Solution {
                 if (b1 >= bound2 + 1) {
                     j = bound2 + 1;
                 } else {
-                    j = (b1 + b2) / 2;
+                     j = (b1 + b2) / 2;
+                    //j = (b2 - b1 + 1) / 2 + b1 - 1;
                 }
-                i = target - i;
+                i = target - j;
             }
         }
         int selectedValue = selectedNumber(nums1, nums2, selectedIndex);
